@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Enviar email usando EmailJS
             await emailjs.send(
                 'service_0ey1awo', // Substitua pelo seu Service ID do EmailJS
-                'template_bmv2wt6', // Substitua pelo seu Template ID do EmailJS
+                '__ejs-test-mail-service__', // Substitua pelo seu Template ID do EmailJS
                 templateParams
             );
 
