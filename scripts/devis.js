@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (!valid) {
-            alert('Veuillez remplir tous les champs obligatoires');
+            showAlert('Veuillez remplir tous les champs obligatoires', 'error');
         }
 
         return valid;
@@ -114,6 +114,21 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
+    // Função para mostrar alertas
+    function showAlert(message, type) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type}`;
+        alertDiv.textContent = message;
+        
+        const formMessage = document.getElementById('formMessage');
+        formMessage.innerHTML = '';
+        formMessage.appendChild(alertDiv);
+        
+        setTimeout(() => {
+            alertDiv.remove();
+        }, 5000);
+    }
+
     // Envio do formulário
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -125,25 +140,48 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData(this);
         const estimate = calculateEstimate(formData);
 
-        try {
-            // Enviar dados para o servidor
-            const response = await fetch('mailer.php', {
-                method: 'POST',
-                body: formData
-            });
+        // Preparar dados para o EmailJS
+        const templateParams = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            address: formData.get('address'),
+            serviceType: formData.get('serviceType'),
+            surface: formData.get('surface'),
+            frequency: formData.get('frequency'),
+            etages: formData.get('etages'),
+            services: formData.getAll('services[]').join(', '),
+            estimateMin: estimate.min,
+            estimateMax: estimate.max
+        };
 
-            if (response.ok) {
-                // Mostrar modal de sucesso
-                modal.style.display = 'block';
-                form.reset();
-                document.querySelector('.form-step.active').classList.remove('active');
-                document.querySelector('.form-step').classList.add('active');
-            } else {
-                alert('Une erreur est survenue. Veuillez réessayer.');
-            }
+        try {
+            // Desabilitar botão durante o envio
+            const submitBtn = this.querySelector('.submit-devis');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+
+            // Enviar email usando EmailJS
+            await emailjs.send(
+                'service_0ey1awo', // Substitua pelo seu Service ID do EmailJS
+                'template_bmv2wt6', // Substitua pelo seu Template ID do EmailJS
+                templateParams
+            );
+
+            // Mostrar sucesso
+            modal.style.display = 'block';
+            form.reset();
+            document.querySelector('.form-step.active').classList.remove('active');
+            document.querySelector('.form-step').classList.add('active');
+
         } catch (error) {
-            console.error('Error:', error);
-            alert('Une erreur est survenue. Veuillez réessayer.');
+            console.error('EmailJS Error:', error);
+            showAlert('Une erreur est survenue. Veuillez réessayer.', 'error');
+        } finally {
+            // Restaurar botão
+            const submitBtn = this.querySelector('.submit-devis');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span>Obtenir le devis</span><i class="fas fa-calculator"></i>';
         }
     });
 
