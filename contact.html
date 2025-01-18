@@ -86,7 +86,7 @@
                 <!-- Formulário de Contato -->
                 <div class="contact-form scroll-animation">
                     <h3>Formulaire de Contact</h3>
-                    <form id="contactForm" action="mailer.php" method="POST">
+                    <form id="contactForm" action="contact.php" method="POST">
                         <div class="form-group">
                             <label for="name">Nom Complet*</label>
                             <input type="text" id="name" name="name" required>
@@ -105,6 +105,7 @@
                                 <option value="">Sélectionnez un sujet</option>
                                 <option value="information">Demande d'information</option>
                                 <option value="rdv">Prise de rendez-vous</option>
+                                <option value="devis">Demande de devis</option>
                                 <option value="autre">Autre</option>
                             </select>
                         </div>
@@ -124,6 +125,8 @@
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </form>
+                    <!-- Mensagem de sucesso/erro -->
+                    <div id="formMessage" class="form-message"></div>
                 </div>
             </div>
         </div>
@@ -187,5 +190,49 @@
 
     <!-- JavaScript -->
     <script src="scripts/script.js"></script>
+    <script>
+        // Manipulação do formulário de contato
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const submitBtn = this.querySelector('.submit-btn');
+            const formMessage = document.getElementById('formMessage');
+            
+            // Desabilita o botão durante o envio
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+            
+            fetch('contact.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    formMessage.className = 'form-message success';
+                    formMessage.textContent = 'Message envoyé avec succès!';
+                    this.reset();
+                } else {
+                    formMessage.className = 'form-message error';
+                    formMessage.textContent = data.error || 'Une erreur est survenue';
+                }
+            })
+            .catch(error => {
+                formMessage.className = 'form-message error';
+                formMessage.textContent = 'Une erreur est survenue';
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>Envoyer le message</span><i class="fas fa-paper-plane"></i>';
+                
+                // Limpa a mensagem após 5 segundos
+                setTimeout(() => {
+                    formMessage.textContent = '';
+                    formMessage.className = 'form-message';
+                }, 5000);
+            });
+        });
+    </script>
 </body>
 </html>
