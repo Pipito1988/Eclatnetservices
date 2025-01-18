@@ -8,6 +8,10 @@
     --white: #ffffff;
     --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease-in-out;
+     --primary-color: #1a73e8;
+    --secondary-color: #4285f4;
+    --text-color: #333;
+    --light-bg: #f8f9fa;
 }
 
 * {
