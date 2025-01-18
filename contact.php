@@ -3,8 +3,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Configurações de email
-$to = "contact@eclatnet.fr"; // Seu email
-$from = "contact@eclatnet.fr"; // Seu email
+$to = "eclatnetservices255@gmail.com"; // Seu email
+$from = "eclatnetservices255@gmail.com"; // Seu email
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recebe e limpa os dados do formulário
