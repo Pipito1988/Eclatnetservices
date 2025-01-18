@@ -9,6 +9,14 @@
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/devis.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("SEU_PUBLIC_KEY"); // Substitua pelo seu public key do EmailJS
+        })();
+    </script>
 </head>
 <body>
     <!-- Loader -->
@@ -168,6 +176,8 @@
                     </div>
                 </div>
             </form>
+            <!-- Mensagem de sucesso/erro -->
+            <div id="formMessage" class="form-message"></div>
         </div>
     </section>
 
@@ -187,7 +197,35 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <!-- [Footer content remains the same] -->
+                <div class="footer-info">
+                    <h3>ÉclatNet</h3>
+                    <p>Services de nettoyage professionnel</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="about.html">À propos</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="devis.html">Devis</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-phone"></i> +33 1 23 45 67 89</p>
+                    <p><i class="fas fa-envelope"></i> contact@eclatnet.fr</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Paris, France</p>
+                </div>
+                <div class="footer-social">
+                    <h4>Suivez-nous</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2025 ÉclatNet. Tous droits réservés.</p>
