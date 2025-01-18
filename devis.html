@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devis - ÉclatNet</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/devis.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="assets/images/logo.jpg" alt="ÉclatNet Logo">
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Accueil</a>
+                <a href="services.html">Services</a>
+                <a href="about.html">À propos</a>
+                <a href="contact.html">Contact</a>
+                <a href="devis.html" class="active devis-btn">Devis</a>
+            </div>
+            <div class="menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="scroll-animation">Devis Estimatif</h1>
+            <p class="scroll-animation">Obtenez une estimation pour nos services</p>
+        </div>
+    </header>
+
+    <!-- Aviso Legal -->
+    <div class="legal-notice">
+        <div class="container">
+            <div class="notice-content">
+                <i class="fas fa-info-circle"></i>
+                <p>Les prix indiqués sont estimatifs et peuvent varier selon les spécificités de votre demande. 
+                Un devis définitif vous sera envoyé après étude détaillée de vos besoins.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulário de Orçamento -->
+    <section class="devis-section">
+        <div class="container">
+            <form id="devisForm" class="devis-form">
+                <!-- Tipo de Serviço -->
+                <div class="form-step active" id="step1">
+                    <h3>Type de Service</h3>
+                    <div class="service-selection">
+                        <div class="service-option">
+                            <input type="radio" id="immeuble" name="serviceType" value="immeuble" required>
+                            <label for="immeuble">
+                                <i class="fas fa-building"></i>
+                                <span>Nettoyage d'Immeubles</span>
+                            </label>
+                        </div>
+                        <div class="service-option">
+                            <input type="radio" id="bureau" name="serviceType" value="bureau">
+                            <label for="bureau">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Bureaux et Commerces</span>
+                            </label>
+                        </div>
+                    </div>
+                    <button type="button" class="next-step">Suivant</button>
+                </div>
+
+                <!-- Detalhes do Imóvel -->
+                <div class="form-step" id="step2">
+                    <h3>Détails du Local</h3>
+                    <div class="form-group">
+                        <label for="surface">Surface approximative (m²)*</label>
+                        <input type="number" id="surface" name="surface" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="frequency">Fréquence de Nettoyage*</label>
+                        <select id="frequency" name="frequency" required>
+                            <option value="">Sélectionnez</option>
+                            <option value="quotidien">Quotidien</option>
+                            <option value="hebdomadaire">Hebdomadaire</option>
+                            <option value="mensuel">Mensuel</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="etages">Nombre d'étages*</label>
+                        <input type="number" id="etages" name="etages" required>
+                    </div>
+                    <div class="buttons-group">
+                        <button type="button" class="prev-step">Précédent</button>
+                        <button type="button" class="next-step">Suivant</button>
+                    </div>
+                </div>
+
+                <!-- Serviços Específicos -->
+                <div class="form-step" id="step3">
+                    <h3>Services Spécifiques</h3>
+                    <div class="services-checklist">
+                        <div class="service-checkbox">
+                            <input type="checkbox" id="vitrerie" name="services[]" value="vitrerie">
+                            <label for="vitrerie">Nettoyage des vitres</label>
+                        </div>
+                        <div class="service-checkbox">
+                            <input type="checkbox" id="sols" name="services[]" value="sols">
+                            <label for="sols">Traitement des sols</label>
+                        </div>
+                        <div class="service-checkbox">
+                            <input type="checkbox" id="sanitaires" name="services[]" value="sanitaires">
+                            <label for="sanitaires">Nettoyage sanitaires</label>
+                        </div>
+                        <div class="service-checkbox">
+                            <input type="checkbox" id="desinfection" name="services[]" value="desinfection">
+                            <label for="desinfection">Désinfection</label>
+                        </div>
+                    </div>
+                    <div class="buttons-group">
+                        <button type="button" class="prev-step">Précédent</button>
+                        <button type="button" class="next-step">Suivant</button>
+                    </div>
+                </div>
+
+                <!-- Informações de Contato -->
+                <div class="form-step" id="step4">
+                    <h3>Vos Coordonnées</h3>
+                    <div class="form-group">
+                        <label for="name">Nom complet*</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email professionnel*</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Téléphone*</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Adresse du local*</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="privacy" required>
+                            <span class="checkmark"></span>
+                            J'accepte la politique de confidentialité
+                        </label>
+                    </div>
+                    <div class="buttons-group">
+                        <button type="button" class="prev-step">Précédent</button>
+                        <button type="submit" class="submit-devis">
+                            <span>Obtenir le devis</span>
+                            <i class="fas fa-calculator"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Modal de Resultado -->
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Estimation Envoyée</h2>
+            <p>Merci pour votre demande. Un devis détaillé vous sera envoyé par email dans les plus brefs délais.</p>
+            <div class="modal-buttons">
+                <button class="modal-close">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- [Footer content remains the same] -->
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ÉclatNet. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="scripts/script.js"></script>
+    <script src="scripts/devis.js"></script>
+</body>
+</html>

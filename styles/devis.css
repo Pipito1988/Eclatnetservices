@@ -1,0 +1,253 @@
+/* styles/devis.css */
+
+/* Estilos do Formulário de Orçamento */
+.devis-section {
+    padding: 60px 0;
+    background: var(--light-bg);
+}
+
+.devis-form {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Etapas do Formulário */
+.form-step {
+    display: none;
+}
+
+.form-step.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Seleção de Serviço */
+.service-selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.service-option {
+    position: relative;
+}
+
+.service-option input[type="radio"] {
+    display: none;
+}
+
+.service-option label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.service-option label i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.service-option label span {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.service-option input[type="radio"]:checked + label {
+    border-color: var(--primary-color);
+    background: rgba(26, 115, 232, 0.05);
+}
+
+/* Checklist de Serviços */
+.services-checklist {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.service-checkbox {
+    position: relative;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.service-checkbox:hover {
+    background: rgba(26, 115, 232, 0.05);
+}
+
+.service-checkbox input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Botões de Navegação */
+.buttons-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.next-step,
+.prev-step,
+.submit-devis {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.next-step,
+.submit-devis {
+    background: var(--primary-color);
+    color: white;
+}
+
+.prev-step {
+    background: #f5f5f5;
+    color: var(--text-color);
+}
+
+.next-step:hover,
+.submit-devis:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.prev-step:hover {
+    background: #e0e0e0;
+}
+
+/* Aviso Legal */
+.legal-notice {
+    background: #fff3cd;
+    padding: 15px 0;
+    margin-bottom: 40px;
+}
+
+.notice-content {
+    display: flex;
+    align-items: start;
+    gap: 15px;
+}
+
+.notice-content i {
+    font-size: 1.5rem;
+    color: #856404;
+}
+
+.notice-content p {
+    color: #856404;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Modal de Resultado */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    background: white;
+    max-width: 500px;
+    margin: 100px auto;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+}
+
+.modal-close {
+    padding: 10px 20px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+    background: var(--secondary-color);
+}
+
+/* Validação de Campos */
+.form-group input.error,
+.form-group select.error {
+    border-color: #dc3545;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .devis-form {
+        padding: 20px;
+    }
+
+    .service-selection {
+        grid-template-columns: 1fr;
+    }
+
+    .buttons-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .buttons-group button {
+        width: 100%;
+    }
+
+    .modal-content {
+        margin: 50px 20px;
+    }
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
