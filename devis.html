@@ -14,7 +14,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
-            emailjs.init("SEU_PUBLIC_KEY"); // Substitua pelo seu public key do EmailJS
+            emailjs.init("0OuiH8pcLC14Abyou");
         })();
     </script>
 </head>
@@ -213,7 +213,7 @@
                 </div>
                 <div class="footer-contact">
                     <h4>Contact</h4>
-                    <p><i class="fas fa-phone"></i> +33 1 23 45 67 89</p>
+                    <p><i class="fas fa-phone"></i> +33 6 38 04 91 53</p>
                     <p><i class="fas fa-envelope"></i> contact@eclatnet.fr</p>
                     <p><i class="fas fa-map-marker-alt"></i> Paris, France</p>
                 </div>
@@ -235,6 +235,130 @@
 
     <!-- JavaScript -->
     <script src="scripts/script.js"></script>
-    <script src="scripts/devis.js"></script>
+    <script>
+        document.getElementById('devisForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('.submit-devis');
+            const formMessage = document.getElementById('formMessage');
+            
+            // Desabilita o botão durante o envio
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+            
+            // Coleta os dados do formulário
+            const formData = {
+                serviceType: this.querySelector('[name="serviceType"]:checked').value,
+                surface: this.querySelector('[name="surface"]').value,
+                frequency: this.querySelector('[name="frequency"]').value,
+                etages: this.querySelector('[name="etages"]').value,
+                services: Array.from(this.querySelectorAll('[name="services[]"]:checked')).map(cb => cb.value),
+                name: this.querySelector('[name="name"]').value,
+                email: this.querySelector('[name="email"]').value,
+                phone: this.querySelector('[name="phone"]').value,
+                address: this.querySelector('[name="address"]').value
+            };
+
+            // Calcula o orçamento estimado
+            const estimate = calculateEstimate(formData);
+            
+            // Prepara o template do email
+            const templateParams = {
+                to_name: formData.name,
+                to_email: formData.email,
+                service_type: formData.serviceType,
+                surface: formData.surface,
+                frequency: formData.frequency,
+                etages: formData.etages,
+                services: formData.services.join(', '),
+                phone: formData.phone,
+                address: formData.address,
+                estimate_min: estimate.min,
+                estimate_max: estimate.max
+            };
+
+            // Envia o email usando EmailJS
+            Promise.all([
+                // Email para o cliente
+                emailjs.send('service_0ey1awo', 'template_ttu1ww6', templateParams),
+                // Email para a empresa
+                emailjs.send('service_0ey1awo', 'template_6tg8vtm', templateParams)
+            ])
+            .then(function() {
+                formMessage.className = 'form-message success';
+                formMessage.textContent = 'Votre demande de devis a été envoyée avec succès!';
+                document.getElementById('devisForm').reset();
+                document.getElementById('resultModal').style.display = 'block';
+            }, function(error) {
+                formMessage.className = 'form-message error';
+                formMessage.textContent = 'Une erreur est survenue lors de l\'envoi du devis.';
+                console.error('EmailJS Error:', error);
+            })
+            .finally(function() {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>Obtenir le devis</span><i class="fas fa-calculator"></i>';
+            });
+        });
+
+        // Função para calcular o orçamento
+        function calculateEstimate(data) {
+            const prices = {
+                immeuble: {
+                    basePrice: 2.5,
+                    frequency: {
+                        quotidien: 1,
+                        hebdomadaire: 0.8,
+                        mensuel: 0.6
+                    }
+                },
+                bureau: {
+                    basePrice: 3,
+                    frequency: {
+                        quotidien: 1,
+                        hebdomadaire: 0.85,
+                        mensuel: 0.7
+                    }
+                }
+            };
+
+            let cost;
+            if(data.serviceType === 'bureau') {
+                const surface = parseFloat(data.surface);
+                const baseHours = surface <= 100 ? 1 : 1 + ((surface - 100) / 100);
+                cost = baseHours * 50; // €50 por hora
+            } else {
+                const etages = parseInt(data.etages);
+                const baseHours = 1.5 * (etages / 6);
+                cost = baseHours * 50;
+            }
+
+            const frequencyMultiplier = prices[data.serviceType].frequency[data.frequency];
+            let totalCost = cost * frequencyMultiplier;
+
+            if(data.frequency === 'quotidien') {
+                totalCost *= 22;
+            } else if(data.frequency === 'hebdomadaire') {
+                totalCost *= 4;
+            }
+
+            return {
+                min: Math.round(totalCost * 0.85),
+                max: Math.round(totalCost * 1.15)
+            };
+        }
+
+        // Fechar o modal
+        document.querySelector('.modal-close').addEventListener('click', function() {
+            document.getElementById('resultModal').style.display = 'none';
+        });
+
+        // Fechar o modal ao clicar fora
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('resultModal');
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
